@@ -37,11 +37,10 @@ class Localization < ActiveRecord::Base
     versions.last
   end
 
-  def self.latest_version
-    <<-eosql
-      SELECT DISTINCT ON (localization_id) localization_id, id, content
-        FROM versions ORDER BY localization_id DESC, id DESC
-    eosql
+  def self.latest_version(id)
+    Version.select('distinct id, localization_id, content').
+      where(["localization_id = ?", id]).
+      order("localization_id DESC, id DESC").first
   end
 
   def next_version_number
@@ -53,17 +52,13 @@ class Localization < ActiveRecord::Base
   end
 
   def self.publish
-    ActiveRecord::Base.connection.execute <<-eosql
-      UPDATE localizations
-        SET published_version_id = latest_version.id,
-        published_content = latest_version.content,
-        updated_at = '#{connection.quoted_date(Time.now)}'
-      FROM (
-          #{latest_version}
-        ) AS latest_version
-      WHERE latest_version.localization_id = localizations.id
-      AND localizations.id IN (#{scoped.map(&:id).join(',')});
-    eosql
+    scoped.map do |s|
+      latest = latest_version(s.id)
+      where(:id => s.id).update_all(
+        :published_version_id => latest.id,
+        :published_content    => latest.content
+      )
+    end
   end
 
   def publish

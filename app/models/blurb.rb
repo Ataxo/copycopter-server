@@ -37,7 +37,7 @@ class Blurb < ActiveRecord::Base
   end
 
   def self.keys
-    select('key').map { |blurb| blurb.key }
+    select('`key`').map { |blurb| blurb.key }
   end
 
   private

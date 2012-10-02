@@ -1,0 +1,20 @@
+development: &default
+  adapter: mysql2
+  host: localhost
+  username: mysql
+  password: pass
+  encoding: utf8
+  database: copycopter
+
+test: &test
+  <<: *default
+  database: copycopter_test
+
+stage: &stage
+  <<: *default
+  database: copycopter_stage
+
+production: &production
+  <<: *default
+  database: copycopter_production
+
