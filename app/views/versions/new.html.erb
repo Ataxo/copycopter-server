@@ -32,19 +32,19 @@
           :id => 'remove_blurb' do %>
       <span class='delete_item'>Remove blurb</span>
     <% end -%>
-
-    <ul class='blurbs-list'>
-      <li><ul>
-    <% @localization.blurb.localizations.select{|l| l.id != @localization.id }.each do |loc| %>
-      <li>
-        <a href="/localizations/557/versions/new">
-        <%= link_to "/localizations/#{loc.id}/versions/new" do %>
-          <p><%= loc.published_content || loc.draft_content %></p>
-          <h4 class="projectname"><%= loc.locale.key %>.<%= loc.key %></h4>
-        <% end %>
-      </li>
-    <% end %>
-      </ul></li>
-    </ul>
   <% end %>
 <% end -%>
+<ul class='blurbs-list'>
+  <li><ul>
+<% @localization.blurb.localizations.select{|l| l.id != @localization.id }.each do |loc| %>
+  <li>
+    <a href="/localizations/557/versions/new">
+    <%= link_to "/localizations/#{loc.id}/versions/new" do %>
+      <p><%= loc.draft_content %></p>
+      <h4 class="projectname"><%= loc.locale.key %>.<%= loc.key %></h4>
+    <% end %>
+  </li>
+<% end %>
+  </ul></li>
+</ul>
+
