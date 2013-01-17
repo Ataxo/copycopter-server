@@ -39,7 +39,7 @@
       <li>
         <a href="/localizations/557/versions/new">
         <%= link_to "/localizations/#{loc.id}/versions/new" do %>
-          <p><%= loc.published_content %></p>
+          <p><%= loc.published_content || loc.draft_content %></p>
           <h4 class="projectname"><%= loc.locale.key %>.<%= loc.key %></h4>
         <% end %>
       </li>
