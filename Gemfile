@@ -19,6 +19,8 @@ group :assets do
   gem "yui-compressor"
 end
 
+#Authorization for oauth doorman
+gem "oauth_doorman", :git => "https://github.com/Ataxo/oauth_doorman.git"
 
 group :development, :test do
   gem 'foreman', '0.40.0'

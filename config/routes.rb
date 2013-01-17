@@ -18,5 +18,8 @@ Copycopter::Application.routes.draw do
     resources :versions, :only => [:new, :create]
   end
 
+  match "/oauth2callback" => "oauth#oauth_callback", :as => "oauth_callback"
+  match "/sign_out" => "oauth#sign_out", :as => "sign_out"
+
   root :to => 'projects#index'
 end
