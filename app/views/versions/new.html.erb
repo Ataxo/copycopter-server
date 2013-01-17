@@ -11,7 +11,7 @@
 
 <% content_for :header do %>
   <h2>
-    <%= link_to @project.name, @project %>
+    <%= link_to @project.name, project_path(@project, :locale_id => @localization.locale_id) %>
     <span>&gt;</span>
     <strong><%=h @localization.key %></strong>
   </h2>
@@ -32,5 +32,19 @@
           :id => 'remove_blurb' do %>
       <span class='delete_item'>Remove blurb</span>
     <% end -%>
+
+    <ul class='blurbs-list'>
+      <li><ul>
+    <% @localization.blurb.localizations.select{|l| l.id != @localization.id }.each do |loc| %>
+      <li>
+        <a href="/localizations/557/versions/new">
+        <%= link_to "/localizations/#{loc.id}/versions/new" do %>
+          <p><%= loc.published_content %></p>
+          <h4 class="projectname"><%= loc.locale.key %>.<%= loc.key %></h4>
+        <% end %>
+      </li>
+    <% end %>
+      </ul></li>
+    </ul>
   <% end %>
 <% end -%>
