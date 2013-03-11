@@ -17,11 +17,18 @@ class Blurb < ActiveRecord::Base
     order 'blurbs.key ASC'
   end
 
+  def self.disable_update_of_cache
+    @cache_disabled = true
+  end
+  def self.enable_update_of_cache
+    @cache_disabled = false
+  end
+
   def self.to_hash(attribute)
     scope = joins(:localizations => :locale).
       select("blurbs.key AS blurb_key, locales.key AS locale_key, #{attribute} AS content")
     blurbs = connection.select_rows(scope.to_sql)
-    
+
     data = blurbs.inject({}) do |result, (blurb_key, locale_key, content)|
       key = [locale_key, blurb_key].join(".")
       result.update key => content
@@ -62,6 +69,8 @@ class Blurb < ActiveRecord::Base
   end
 
   def update_project_caches
-    project.update_caches
+    unless !!@cache_disabled
+      project.update_caches
+    end
   end
 end

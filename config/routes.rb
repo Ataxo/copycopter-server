@@ -10,6 +10,10 @@ Copycopter::Application.routes.draw do
   end
 
   resources :projects, :only => [:index, :show] do
+    member do
+      match '/empty_blurbs' => 'projects#empty_blurbs'
+    end
+
     resources :blurbs, :only => [:destroy]
     resources :locales, :only => [:new]
   end

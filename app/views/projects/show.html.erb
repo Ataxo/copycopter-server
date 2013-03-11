@@ -10,7 +10,6 @@
 
 <% content_for :header do %>
   <h2><strong><%= @project.name %></strong></h2>
-
   <%= render 'shared/locale_dropdown' %>
 <% end %>
 
@@ -54,6 +53,10 @@
 
   <div id='view_all'><a href='#'>View all <%= pluralize(@localizations.size, 'blurb') %></a></div>
   <div id='view_not_filled'><a href='#'>View Not Filled</a></div>
+
+  <% content_for :bottom do -%>
+    <%= link_to '<span class="delete_item"></span>Remove empty blurbs'.html_safe, empty_blurbs_project_path(@project), :class=>'remove_blurb', :confirm => "Are you sure to delete all empty blurbs?" %>
+  <% end -%>
 
   <% content_for :javascript do -%>
     <script type='text/javascript'>

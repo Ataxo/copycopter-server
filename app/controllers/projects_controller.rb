@@ -14,4 +14,22 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def empty_blurbs
+    @project = Project.find(params[:id])
+    locales = @project.locales.collect{|l| l.id}.sort
+    blurbs = @project.blurbs.includes(:localizations).select do |b|
+      b.localizations.all?{|l| l.draft_content == "" && l.published_content == "" } &&
+      b.localizations.collect{|l| l.locale_id}.sort == locales
+    end.collect{|b| b.id}
+
+    Blurb.disable_update_of_cache
+    Blurb.destroy(blurbs)
+    Blurb.enable_update_of_cache
+
+    flash[:notice] = "#{blurbs.size} blurbs were successfully deleted"
+
+    @project.update_caches
+
+    redirect_to @project
+  end
 end
