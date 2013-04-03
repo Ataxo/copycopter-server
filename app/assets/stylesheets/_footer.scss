@@ -69,3 +69,15 @@ div#ground {
     background: transparent image-url('home/grass.png') top left no-repeat;
   }
 }
+
+.bottom-links {
+  color: #3a4c53;
+  margin-top: 10px;
+  text-align: center;
+  text-shadow: 0 1px 0 #c0e7f4;
+
+  a {
+    margin-left:10px;
+    margin-right:10px;
+  }
+}

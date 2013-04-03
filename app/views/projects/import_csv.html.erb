@@ -1,0 +1,13 @@
+<% content_for :title, 'Import' %>
+
+<% content_for :header do %>
+  <h2><strong>
+    <%= link_to @project.name, project_path(@project) %>
+  </strong></h2>
+<% end %>
+
+
+<%= form_tag import_csv_project_path(@project), :multipart => true do %>
+  <%= file_field_tag 'csv' %>
+  <%= submit_tag 'upload' %>
+<% end %>
