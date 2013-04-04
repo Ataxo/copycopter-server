@@ -101,9 +101,7 @@ class Project < ActiveRecord::Base
     out = {}
     current_locales = locales.collect{|l| l.key}
     blurbs.to_hash("published_content")[:data].each do |key, translation|
-      ks = key.split(".")
-      lang = ks[0]
-      name = ks[1..-1].join(".")
+      lang, name = *key.split_key_with_locale
       out[name] ||= {}
       out[name][lang] = translation
     end
