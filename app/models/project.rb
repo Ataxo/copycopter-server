@@ -1,6 +1,8 @@
+require 'csv'
 require 'extensions/string'
 
 class Project < ActiveRecord::Base
+
   # Attributes
   attr_accessible :name, :password, :username
 
@@ -95,6 +97,27 @@ class Project < ActiveRecord::Base
     touch
   end
 
+  def generate_csv
+    out = {}
+    current_locales = locales.collect{|l| l.key}
+    blurbs.to_hash("published_content")[:data].each do |key, translation|
+      ks = key.split(".")
+      lang = ks[0]
+      name = ks[1..-1].join(".")
+      out[name] ||= {}
+      out[name][lang] = translation
+    end
+
+    data = CSV.generate_line(["key"]+current_locales, CSV_SETTINGS)
+
+    out.each do |key, values|
+      if current_locales.any?{|l| values.has_key?(l) ? values[l].size > 0 : false }
+        data += CSV.generate_line([key]+current_locales.collect{|l| values.has_key?(l) ? values[l] : "" }, CSV_SETTINGS)
+      end
+    end
+    data
+  end
+
   private
 
   def create_caches
@@ -124,4 +147,5 @@ class Project < ActiveRecord::Base
     blurbs_hash[:hierarchichal_data] = Yajl::Encoder.encode blurbs_hash[:hierarchichal_data]
     blurbs_hash
   end
+
 end

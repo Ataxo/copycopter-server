@@ -1,9 +1,6 @@
-require 'csv'
-require 'pp'
+require 'fileutils'
 class ProjectsController < ApplicationController
   before_filter :authorize
-
-  CSV_SETTINGS = { :col_sep => ',', :row_sep => ?\n, :quote_char => '"', :force_quotes => true }
 
   def index
     @projects = Project.active
@@ -21,25 +18,8 @@ class ProjectsController < ApplicationController
   def csv
 
     @project = Project.find(params[:id])
-    out = {}
-    locales = @project.locales.collect{|l| l.key}
-    @project.blurbs.to_hash("published_content")[:data].each do |key, translation|
-      ks = key.split(".")
-      lang = ks[0]
-      name = ks[1..-1].join(".")
-      out[name] ||= {}
-      out[name][lang] = translation
-    end
 
-    data = CSV.generate_line(["key"]+locales, CSV_SETTINGS)
-
-    out.each do |key, values|
-      if locales.any?{|l| values.has_key?(l) ? values[l].size > 0 : false }
-        data += CSV.generate_line([key]+locales.collect{|l| values.has_key?(l) ? values[l] : "" }, CSV_SETTINGS)
-      end
-    end
-
-    send_data data,
+    send_data @project.generate_csv,
       :type => 'text/csv; charset=utf-8; header=present',
       :disposition => "attachment; filename=#{@project.name}.csv",
       :status => 200
@@ -48,6 +28,11 @@ class ProjectsController < ApplicationController
   def import_csv
     @project = Project.find(params[:id])
     if params[:csv]
+      #backup
+      dir = File.join(Rails.root, "tmp", "backup_before_import")
+      FileUtils.mkdir(dir) unless File.exists?(dir)
+      backup_file = File.join(dir, "#{@project.name}_#{current_user.split("@").first}_#{Time.now.to_i}.csv")
+      File.open(backup_file, 'w:utf-8').write(@project.generate_csv)
       begin
         csv = CSV.parse(params[:csv].read, CSV_SETTINGS)
 
@@ -84,7 +69,7 @@ class ProjectsController < ApplicationController
             end
           end
         end
-        flash[:notice] = message
+        flash[:notice] = "Backuped localizations before update to: #{backup_file}<br />Updated #{message} localizations".html_safe
         @project.update_caches
 
       rescue Exception => e
