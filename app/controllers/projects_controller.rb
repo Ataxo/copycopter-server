@@ -80,6 +80,10 @@ class ProjectsController < ApplicationController
         @project.update_caches
 
       rescue Exception => e
+        puts "-"*80
+        puts e.message
+        puts e.backtrace
+        puts "-"*80
         flash[:failure] = "#{e.message}<br /><small>#{e.backtrace[0..10].join("<br />")}</small>".html_safe
       end
     end
