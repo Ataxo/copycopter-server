@@ -55,9 +55,10 @@
   <div id='view_not_filled'><a href='#'>View Not Filled</a></div>
 
   <% content_for :bottom do -%>
-    <%= link_to '<span class="delete_item"></span>Remove empty blurbs'.html_safe, empty_blurbs_project_path(@project), :class=>'remove_blurb', :confirm => "Are you sure to delete all empty blurbs?" %>
-    <%= link_to 'Export as CSV', csv_project_path(@project) %>
-    <%= link_to 'Import from CSV', import_csv_project_path(@project) %>
+    <%= link_to '<span class="delete_item"></span>Remove empty blurbs'.html_safe, empty_blurbs_project_path(@project), :class=>'remove_blurb', :confirm => "Are you sure to delete all empty blurbs?" %> |
+    <%= link_to 'Export as CSV', csv_project_path(@project) %> |
+    <%= link_to 'Import from CSV', import_csv_project_path(@project) %> |
+    <%= link_to 'Publish all draft blurbs', publish_project_path(@project) %>
   <% end -%>
 
   <% content_for :javascript do -%>

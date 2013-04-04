@@ -11,6 +11,7 @@ Copycopter::Application.routes.draw do
 
   resources :projects, :only => [:index, :show] do
     member do
+      match 'publish'
       match 'csv'
       match 'import_csv'
       match '/empty_blurbs' => 'projects#empty_blurbs'

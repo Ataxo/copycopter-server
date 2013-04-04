@@ -15,6 +15,12 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def publish
+    @project = Project.find(params[:id])
+    @project.deploy!
+    redirect_to project_path(@project)
+  end
+
   def csv
 
     @project = Project.find(params[:id])
