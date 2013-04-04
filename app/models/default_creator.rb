@@ -119,7 +119,7 @@ class DefaultCreator
       if key.present?
         locale_key, blurb_key = *key.split_key_with_locale
         result[locale_key] ||= {}
-        result[locale_key][blurb_key] = default
+        result[locale_key][blurb_key] = default.blank? ? "" : default
       end
 
       result
