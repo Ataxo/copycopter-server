@@ -34,7 +34,9 @@ class ProjectsController < ApplicationController
     data = CSV.generate_line(["key"]+locales, CSV_SETTINGS)
 
     out.each do |key, values|
-      data += CSV.generate_line([key]+locales.collect{|l| values.has_key?(l) ? values[l] : "" }, CSV_SETTINGS)
+      if locales.any?{|l| values.has_key?(l) ? values[l].size > 0 : false }
+        data += CSV.generate_line([key]+locales.collect{|l| values.has_key?(l) ? values[l] : "" }, CSV_SETTINGS)
+      end
     end
 
     send_data data,
