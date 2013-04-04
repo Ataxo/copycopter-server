@@ -66,8 +66,9 @@ class ProjectsController < ApplicationController
               blurb.localizations.each do |localization|
                 loc = project_locales[localization.locale_id].key
                 if locales.has_key?(loc)
-                  localization.draft_content = locales[loc]
-                  localization.published_content = locales[loc]
+                  value = locales[loc].blank? ? "" : locales[loc]
+                  localization.draft_content = value
+                  localization.published_content = value
                   localization.save
                   message += 1
                 end
