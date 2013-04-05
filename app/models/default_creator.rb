@@ -54,9 +54,10 @@ class DefaultCreator
 
   def create_default_for(locale_key, blurb_key, content)
     locale = @locales[locale_key]
-    blurb = find_or_create_blurb(blurb_key)
-    declare_blurb blurb
-    localize_blurb blurb, locale, content
+    if blurb = find_or_create_blurb(blurb_key)
+      declare_blurb blurb
+      localize_blurb blurb, locale, content
+    end
   end
 
   def create_localization(blurb, locale, content)
@@ -106,6 +107,9 @@ class DefaultCreator
 
   def find_or_create_blurb(key)
     @blurbs[key] ||= project.blurbs.create!(:key => key)
+  rescue Exception => e
+    Rails.logger.error "Problem with creating blurb: #{key} -> #{e.message} in DefaultCreator.find_or_create_blurb"
+    return nil
   end
 
   def localize_blurb(blurb, locale, content)
