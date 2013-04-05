@@ -2,6 +2,9 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
+Encoding.default_internal = "UTF-8"
+Encoding.default_external = "UTF-8"
+
 if defined? Bundler
   Bundler.require *Rails.groups(:assets => %w(development test))
 end
