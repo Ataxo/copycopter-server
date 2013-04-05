@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Localization < ActiveRecord::Base
   belongs_to :blurb
   belongs_to :locale

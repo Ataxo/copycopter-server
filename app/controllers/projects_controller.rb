@@ -40,7 +40,10 @@ class ProjectsController < ApplicationController
       backup_file = File.join(dir, "#{@project.name}_#{current_user.split("@").first}_#{Time.now.to_i}.csv")
       File.open(backup_file, 'w:utf-8').write(@project.generate_csv)
       begin
-        csv = CSV.parse(params[:csv].read, CSV_SETTINGS)
+        tmp_file = File.join(Rails.root, "tmp", "import_csv_temp.csv")
+        File.open(tmp_file, 'wb').write(params[:csv].read)
+
+        csv = CSV.parse(File.open(tmp_file, 'r:UTF-8').read, CSV_SETTINGS)
 
         locales = csv[0][1..-1]
 

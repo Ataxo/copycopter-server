@@ -1,3 +1,4 @@
+# encoding: utf-8
 class DefaultCreator
   def initialize(project, hash)
     @project  = project
@@ -107,9 +108,6 @@ class DefaultCreator
 
   def find_or_create_blurb(key)
     @blurbs[key] ||= project.blurbs.create!(:key => key)
-  rescue Exception => e
-    Rails.logger.error "Problem with creating blurb: #{key} -> #{e.message} in DefaultCreator.find_or_create_blurb"
-    return nil
   end
 
   def localize_blurb(blurb, locale, content)

@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Locale < ActiveRecord::Base
   belongs_to :project
   has_many :localizations, :dependent => :destroy

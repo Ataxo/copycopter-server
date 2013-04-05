@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Version < ActiveRecord::Base
   # Attributes
   attr_accessible :content, :published
