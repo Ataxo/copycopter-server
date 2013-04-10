@@ -83,7 +83,6 @@ class ProjectsController < ApplicationController
         @project.update_caches
 
       rescue Exception => e
-        raise e
         puts "-"*80
         puts e.message
         puts e.backtrace
