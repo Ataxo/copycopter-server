@@ -1,19 +1,36 @@
+.actual_published {
+  background:#eaeaea;
+  border: 1px solid #959595;
+  padding: 8px;
+  margin-bottom: 0;
+  width: 580px;
+  clear: left;
+  @include box-shadow(inset 0 0 5px #e9e9e9);
+  .content {
+    width: 548px;
+    min-height: 50px;
+    background: #eee ;
+    padding: 15px;
+    border: 1px solid #ababab;
+  }
+}
+
 ol {
-  
+
 }
 li {
-  
+
   &#version_published_input {
     float: left;
     width: 160px;
     margin-top: 10px;
   }
-  
+
   &.explanation {
-    float: left; 
+    float: left;
     width: 438px;
   }
-  
+
   &#version_content_input {
     background:#eaeaea;
     border: 1px solid #959595;

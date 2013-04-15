@@ -1,11 +1,8 @@
 <%= form.inputs do %>
 
-  <%= form.hidden_field :published, :value=>true %>
-  <% form.input :published, :as => :radio,
-        :collection => [['Draft', false], ['Publish', true]],
-        :wrapper_html => {
-          :style => version.published? ? 'display: none' : ''
-        } %>
+  <%= form.input :published, :as => :radio,
+        :collection => [['Draft', false], ['Publish', true]]
+    %>
   <% if version.published? %>
     <li class='published'>Published</li>
     <li class='explanation'><%= t 'blurb.published_html' %></li>

@@ -34,6 +34,13 @@
     <% end -%>
   <% end %>
 <% end -%>
+
+<% if @version.content != @version.localization.published_content %>
+  <h3>Published</h3>
+  <div class='actual_published'><div class='content'><%= @version.localization.published_content %></div></div>
+<% end %>
+
+
 <ul class='blurbs-list'>
   <li><ul>
 <% @localization.blurb.localizations.select{|l| l.id != @localization.id }.each do |loc| %>
