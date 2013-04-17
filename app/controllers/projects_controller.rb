@@ -70,9 +70,10 @@ class ProjectsController < ApplicationController
                 loc = project_locales[localization.locale_id].key
                 if locales.has_key?(loc)
                   value = locales[loc].blank? ? "" : locales[loc]
-                  localization.draft_content = value
-                  localization.published_content = value
-                  localization.save
+
+                  version = localization.revise(published: true, content: value)
+                  version.save!
+
                   message += 1
                 end
               end
