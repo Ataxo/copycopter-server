@@ -63,8 +63,15 @@ class Version < ActiveRecord::Base
     end
   end
 
+  def save_without_update_cache
+    @dont_update_cache = true
+    save!
+  end
+
   def update_project_caches
-    project.update_caches
+    unless @dont_update_cache
+      project.update_caches
+    end
   end
 
   def first_version?

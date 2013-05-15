@@ -72,7 +72,7 @@ class ProjectsController < ApplicationController
                   value = locales[loc].blank? ? "" : locales[loc]
 
                   version = localization.revise(published: true, content: value)
-                  version.save!
+                  version.save_without_update_cache
 
                   message += 1
                 end
