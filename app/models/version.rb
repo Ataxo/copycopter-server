@@ -41,6 +41,11 @@ class Version < ActiveRecord::Base
     published
   end
 
+  def save_without_update_cache
+    @dont_update_cache = true
+    save!
+  end
+
   private
 
   def publish_after_saving?
@@ -61,11 +66,6 @@ class Version < ActiveRecord::Base
     if publish_after_saving?
       localization.publish
     end
-  end
-
-  def save_without_update_cache
-    @dont_update_cache = true
-    save!
   end
 
   def update_project_caches
