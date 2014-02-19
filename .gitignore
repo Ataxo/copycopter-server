@@ -6,6 +6,8 @@ tmp/**/*
 import_csv_temp.csv
 
 config/database.yml
-Gemfile.lock
 sandbox*.rb
 config/*.yml
+
+.bundle
+.ruby-version
