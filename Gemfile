@@ -40,3 +40,6 @@ group :test do
 end
 
 gem "newrelic_rpm", "~> 3.7.2.192"
+
+#webservers
+gem "puma"
