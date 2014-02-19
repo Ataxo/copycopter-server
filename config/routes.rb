@@ -27,6 +27,7 @@ Copycopter::Application.routes.draw do
 
   match "/oauth2callback" => "oauth#oauth_callback", :as => "oauth_callback"
   match "/sign_out" => "oauth#sign_out", :as => "sign_out"
+  match "/is_alive" => "shared#is_alive"
 
   root :to => 'projects#index'
 end
