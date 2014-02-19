@@ -38,3 +38,5 @@ group :test do
   gem 'shoulda-matchers', '1.0.0'
   gem 'timecop', '0.3.5'
 end
+
+gem "newrelic_rpm", "~> 3.7.2.192"
