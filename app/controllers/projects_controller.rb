@@ -53,9 +53,9 @@ class ProjectsController < ApplicationController
           key = line[0]
           row_data = line[1..-1]
           locales.each_with_index do |locale, index|
-            import_data["#{locale}.#{key}"] = row_data[index]
+            import_data["#{locale}.#{key}"] = row_data[index].gsub(" ", " ")
             update_data[key] ||= {}
-            update_data[key][locale] = row_data[index]
+            update_data[key][locale] = row_data[index].gsub(" ", " ")
           end
         end
         @project.create_defaults import_data
